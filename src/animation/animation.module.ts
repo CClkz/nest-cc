@@ -4,6 +4,6 @@ import { AnimationService } from './animation.service';
 
 @Module({
   controllers: [AnimationController],
-  providers: [AnimationService]
+  providers: [AnimationService],
 })
-export class AnimationModule {}
+export class AnimationModule { }
