@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AnimationModule } from './animation/animation.module';
+import { AnimationModule } from '../animation/animation.module';
 
 @Module({
   imports: [AnimationModule],
