@@ -88,4 +88,14 @@ export class AnimationService {
       ],
     };
   }
+
+  getAsync(): Promise<string> {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve('3 seconds have passed');
+      }, 3000);
+    }).then(() => {
+      return 'hello world';
+    });
+  }
 }

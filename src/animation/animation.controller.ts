@@ -28,8 +28,8 @@ export class AnimationController {
     return this.animationService.getKidAnimations(options);
   }
 
-  @Get('sync')
-  getSyncAnimations() {
-    return {};
+  @Get('async')
+  getAsync() {
+    return this.animationService.getAsync();
   }
 }
