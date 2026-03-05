@@ -1,52 +1,51 @@
 import { Injectable } from '@nestjs/common';
+import { GetKidAnimationsDto } from './dto/get-kid-animations.dto';
 
 @Injectable()
 export class AnimationService {
   getAnimations(): object {
-    return {
-      message: 'Welcome to Animation API',
-      total: 5,
-      data: [
-        {
-          id: 1,
-          title: 'Dragon Ball',
-          genre: 'Action',
-          year: 1986,
-          rating: 9.2,
-        },
-        {
-          id: 2,
-          title: 'Pokemon',
-          genre: 'Adventure',
-          year: 1997,
-          rating: 8.9,
-        },
-        {
-          id: 3,
-          title: 'Sailor Moon',
-          genre: 'Magical Girl',
-          year: 1992,
-          rating: 8.5,
-        },
-        {
-          id: 4,
-          title: 'Naruto',
-          genre: 'Shounen',
-          year: 2002,
-          rating: 9.0,
-        },
-        {
-          id: 5,
-          title: 'One Piece',
-          genre: 'Adventure',
-          year: 1999,
-          rating: 9.8,
-        },
-      ],
-    };
+    // 基础数据
+    return [
+      {
+        id: 1,
+        title: 'Dragon Ball',
+        genre: 'Action',
+        year: 1986,
+        rating: 9.2,
+      },
+      {
+        id: 2,
+        title: 'Pokemon',
+        genre: 'Adventure',
+        year: 1997,
+        rating: 8.9,
+      },
+      {
+        id: 3,
+        title: 'Sailor Moon',
+        genre: 'Magical Girl',
+        year: 1992,
+        rating: 8.5,
+      },
+      {
+        id: 4,
+        title: 'Naruto',
+        genre: 'Shounen',
+        year: 2002,
+        rating: 9.0,
+      },
+      {
+        id: 5,
+        title: 'One Piece',
+        genre: 'Adventure',
+        year: 1999,
+        rating: 9.8,
+      },
+    ];
   }
 
-  getKidAnimations(): object {
+  getKidAnimations(options?: GetKidAnimationsDto): object {
+    console.log('getKidAnimations options:', options);
     return {
       message: 'Kid-Friendly Animation API',
       total: 5,
