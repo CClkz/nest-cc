@@ -47,6 +47,7 @@ export class AnimationService {
   getKidAnimations(options?: GetKidAnimationsDto): object {
     console.log('getKidAnimations options:', options);
     return {
+      code: 0,
       message: 'Kid-Friendly Animation API',
       total: 5,
       data: [
