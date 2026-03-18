@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd \"D:\\\\coding\\\\back-end\\\\nest-cc\" && pnpm test -- src/blog/blog.controller.spec.ts 2>&1)",
+      "Bash(cd \"D:\\\\coding\\\\back-end\\\\nest-cc\" && pnpm build 2>&1 | head -50)"
+    ]
+  }
+}
