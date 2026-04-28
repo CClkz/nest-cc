@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { GetBlogPostsDto } from './dto/get-blog-posts.dto';
 
 // 模拟博客文章类型
 export interface BlogPost {
@@ -50,11 +51,7 @@ export class BlogService {
   ];
 
   // 获取所有博客文章（支持分页和过滤）
-  findAll(query?: {
-    published?: boolean;
-    author?: string;
-    tag?: string;
-  }): BlogPost[] {
+  findAll(query?: GetBlogPostsDto): BlogPost[] {
     let filteredPosts = [...this.blogPosts];
 
     if (query?.published !== undefined) {
@@ -139,6 +136,7 @@ export class BlogService {
   // 搜索博客文章（标题和内容）
   search(keyword: string): BlogPost[] {
     const lowerKeyword = keyword.toLowerCase();
+    console.log('lowerKeyword', lowerKeyword);
     return this.blogPosts.filter(
       post =>
         post.title.toLowerCase().includes(lowerKeyword) ||

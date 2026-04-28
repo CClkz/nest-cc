@@ -13,6 +13,8 @@ import {
 import { BlogService, BlogPost } from './blog.service';
 import { CreateBlogPostDto } from './dto/create-blog-post.dto';
 import { UpdateBlogPostDto } from './dto/update-blog-post.dto';
+import { GetBlogPostsDto } from './dto/get-blog-posts.dto';
+import { SearchBlogPostsDto } from './dto/search-blog-posts.dto';
 
 @Controller('blog')
 export class BlogController {
@@ -20,32 +22,18 @@ export class BlogController {
 
   // 获取所有博客文章（支持过滤）
   @Get()
-  findAll(
-    @Query('published') published?: string,
-    @Query('author') author?: string,
-    @Query('tag') tag?: string,
-  ) {
-    const query: any = {};
-    if (published !== undefined) {
-      query.published = published === 'true';
-    }
-    if (author) {
-      query.author = author;
-    }
-    if (tag) {
-      query.tag = tag;
-    }
-
+  findAll(@Query() getBlogPostsDto: GetBlogPostsDto) {
     return {
       code: 0,
       message: 'Success',
-      data: this.blogService.findAll(query),
+      data: this.blogService.findAll(getBlogPostsDto),
     };
   }
 
   // 根据ID获取博客文章
   @Get(':id')
   findOne(@Param('id') id: string) {
+    console.log('enter :id');
     const postId = parseInt(id, 10);
     const post = this.blogService.findOne(postId);
 
@@ -120,16 +108,8 @@ export class BlogController {
 
   // 搜索博客文章
   @Get('search')
-  search(@Query('q') keyword: string) {
-    if (!keyword) {
-      return {
-        code: 400,
-        message: 'Search keyword is required',
-        data: null,
-      };
-    }
-
-    const results = this.blogService.search(keyword);
+  search(@Query() searchBlogPostsDto: SearchBlogPostsDto) {
+    const results = this.blogService.search(searchBlogPostsDto.q);
     return {
       code: 0,
       message: 'Search completed',

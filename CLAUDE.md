@@ -43,7 +43,7 @@ This is a NestJS TypeScript API project with a single feature module for animati
 ## Architecture
 
 ### Module Structure
-- `src/app.module.ts` - Root module that imports `AnimationModule`
+- `src/app.module.ts` - Root module that imports `AnimationModule` and `BlogModule`
 - `src/animation/` - Feature module containing animation-related functionality
   - `animation.module.ts` - Animation feature module
   - `animation.controller.ts` - REST controller with endpoints:
@@ -53,6 +53,24 @@ This is a NestJS TypeScript API project with a single feature module for animati
   - `animation.service.ts` - Service providing hardcoded animation data
   - `dto/get-kid-animations.dto.ts` - DTO for query parameters
   - `animation.controller.spec.ts` - Unit tests for the controller
+- `src/blog/` - Feature module for blog management with full CRUD operations and parameter validation
+  - `blog.module.ts` - Blog feature module
+  - `blog.controller.ts` - REST controller with endpoints:
+    - `GET /blog` - Get all blog posts with filtering (`published`, `author`, `tag`)
+    - `GET /blog/:id` - Get single blog post by ID
+    - `POST /blog` - Create new blog post (with validation)
+    - `PUT /blog/:id` - Update blog post (with validation)
+    - `DELETE /blog/:id` - Delete blog post
+    - `GET /blog/search` - Search blog posts by keyword
+    - `GET /blog/tags/all` - Get all unique tags
+    - `PUT /blog/:id/publish` - Toggle publish status
+  - `blog.service.ts` - Service with in-memory blog post storage and business logic
+  - `dto/` - Data Transfer Objects for parameter validation:
+    - `create-blog-post.dto.ts` - Validation for creating posts
+    - `update-blog-post.dto.ts` - Validation for updating posts
+    - `get-blog-posts.dto.ts` - Validation for query parameters
+    - `search-blog-posts.dto.ts` - Validation for search queries
+  - `blog.controller.spec.ts` - Unit tests for the controller
 
 ### Key Design Patterns
 - **Controllers**: Handle HTTP requests and delegate to services
@@ -81,13 +99,26 @@ This is a NestJS TypeScript API project with a single feature module for animati
   - Prettier violations are errors
 - `.prettierrc` - Prettier configuration: single quotes, trailing commas, 2-space tabs, LF line endings.
 
+### Validation & Error Handling
+- `src/main.ts` - Configures global validation pipe and exception filter:
+  - `ValidationPipe` with whitelist, forbidNonWhitelisted, and transform options
+  - `HttpExceptionFilter` for consistent error response formatting
+- Dependencies: `class-validator` and `class-transformer` for parameter validation
+- DTO files in each module's `dto/` directory define validation rules using decorators
+
 ### Package Management
 - `package.json` - Includes all scripts and dependencies. Uses pnpm workspaces (none defined).
 
 ## Important Notes
 - The application runs on port 3000 by default, configurable via `PORT` environment variable.
-- The root endpoint (`/`) returns a 404 as no controller is defined there; all routes are under `/animation`.
+- The root endpoint (`/`) returns a 404 as no controller is defined there; all routes are under `/animation` or `/blog`.
 - The project uses ESLint with Prettier for code formatting; run `pnpm format` before committing.
 - Git hooks may be configured; ensure tests pass before pushing.
 - The source root is `src/` and the build output goes to `dist/`.
 - The project uses the NestJS factory pattern with async/await bootstrap error handling.
+- **Parameter validation is enabled globally** using `class-validator` decorators in DTOs.
+- **Validation behavior**:
+  - Whitelist: Automatically strips properties not defined in DTOs
+  - Forbid non-whitelisted: Rejects requests with unexpected properties
+  - Transform: Automatically converts types (string to number/boolean)
+- **Error responses** are formatted consistently via `HttpExceptionFilter`.
